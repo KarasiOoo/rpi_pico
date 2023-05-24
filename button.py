@@ -11,7 +11,7 @@ led_yellow = Pin(3, Pin.OUT)
 led_red = Pin(2, Pin.OUT)
 button = Pin(0, Pin.IN)
 
-#set values for the beggining
+#set values for the beginning
 status = 0										#variable which consists state 
 led.value(1)
 led_green.value(0)
