@@ -46,29 +46,30 @@ rw.value(0)
 
 # Function definition
 
-def SetCommandReg(command_reg7, command_reg6, command_reg5, command_reg4, command_reg3, command_reg2, command_reg1, command_reg0):
-    d7.init(Pin.OUT)							# Reconfigure pins to outputs
+# Function which writes 'command_reg' value into command register, which is used to configure display.
+def SetCommandReg(command_reg):
+    d7.init(Pin.OUT)								# Reconfigure pins to outputs
     d6.init(Pin.OUT)
     d5.init(Pin.OUT)
     d4.init(Pin.OUT)
     
-    e.value(1)									# Set proper values to control pins
+    e.value(1)										# Set proper values to control pins
     rs.value(0)
     rw.value(0)
     
-    d7.value(command_reg7)						# First part of command
-    d6.value(command_reg6)
-    d5.value(command_reg5)
-    d4.value(command_reg4)
+    d7.value((command_reg >> 7) & 0b1)				# First part of command
+    d6.value((command_reg >> 6) & 0b1)
+    d5.value((command_reg >> 5) & 0b1)
+    d4.value((command_reg >> 4) & 0b1)
     
-    e.value(0)									# Break needed for controller to prepare for second part of command
+    e.value(0)										# Break needed for controller to prepare for second part of command
     sleep_us(1)
     e.value(1)
     
-    d7.value(command_reg3)						# Second part of command
-    d6.value(command_reg2)
-    d5.value(command_reg1)
-    d4.value(command_reg0)
+    d7.value((command_reg >> 3) & 0b1)				# Second part of command
+    d6.value((command_reg >> 2) & 0b1)
+    d5.value((command_reg >> 1) & 0b1)
+    d4.value(command_reg & 0b1)
     e.value(0)
     sleep_us(1)
     
@@ -107,29 +108,30 @@ def ReadAddressCounter():
     return (bin(address_counter))
 
 
-def SetDataReg(data_reg7, data_reg6, data_reg5, data_reg4, data_reg3, data_reg2, data_reg1, data_reg0):
-    d7.init(Pin.OUT)							# Reconfigure pins to outputs
+# Function which writes 'data_reg' value into data register, which cause display coresponding char on display.
+def SetDataReg(data_reg):
+    d7.init(Pin.OUT)								# Reconfigure pins to outputs
     d6.init(Pin.OUT)
     d5.init(Pin.OUT)
     d4.init(Pin.OUT)
     
-    rs.value(1)									# Set proper values to control pins, to set it into display mode
+    rs.value(1)										# Set proper values to control pins, to set it into display mode
     rw.value(0)
     e.value(1)
     
-    d7.value(data_reg7)							# First part of command
-    d6.value(data_reg6)
-    d5.value(data_reg5)
-    d4.value(data_reg4)
+    d7.value((data_reg >> 7) & 0b1)					# First part of command
+    d6.value((data_reg >> 6) & 0b1)
+    d5.value((data_reg >> 5) & 0b1)
+    d4.value((data_reg >> 4) & 0b1)
     
-    e.value(0)									# Break needed for controller to prepare for second part of command
+    e.value(0)										# Break needed for controller to prepare for second part of command
     sleep_ms(1)
     e.value(1)
     
-    d7.value(data_reg3)							# Second part of command
-    d6.value(data_reg2)
-    d5.value(data_reg1)
-    d4.value(data_reg0)
+    d7.value((data_reg >> 3) & 0b1)					# Second part of command
+    d6.value((data_reg >> 2) & 0b1)
+    d5.value((data_reg >> 1) & 0b1)
+    d4.value(data_reg & 0b1)
     e.value(0)
     sleep_us(1)
     
@@ -137,10 +139,10 @@ def SetDataReg(data_reg7, data_reg6, data_reg5, data_reg4, data_reg3, data_reg2,
 
 # Configuration LCD to first place of display
 
-SetCommandReg(0, 0, 1, 1, 1, 0, 0, 0)				# Set (according to datasheet 8-bit but in 4-bit way) display to 8-char, 2-line mode
-SetCommandReg(0, 0, 0, 0, 1, 1, 1, 0)				# Turn on display and cursor
-SetCommandReg(0, 0, 0, 0, 0, 0, 1, 0)				# Return display and cursor to defult position (address 0)
-#SetCommandReg(0, 0, 0, 0, 0, 0, 0, 1) 				# Clear command
+SetCommandReg(set_mode)								# Set (according to datasheet 8-bit but in 4-bit way) display to 8-char, 2-line mode
+SetCommandReg(turn_on_display)						# Turn on display and cursor
+SetCommandReg(home)									# Return display and cursor to defult position (address 0)
+SetCommandReg(clear) 								# Clear command
 
 # Further control is done by MicroPython shell
 
