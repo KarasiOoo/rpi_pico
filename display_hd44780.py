@@ -35,13 +35,13 @@ chars = {
 led = Pin(25, Pin.OUT)
 led.value(1)
 
-e = Pin(16, Pin.OUT)							# Enable save operation to registers
-rs = Pin(15, Pin.OUT)							# Set which register will get data (command/data)
-rw = Pin(14, Pin.OUT)							# Read/Write
-d4 = Pin(13, Pin.OUT)							# Data lines used for communication
-d5 = Pin(12, Pin.OUT)
-d6 = Pin(11, Pin.OUT)
-d7 = Pin(10, Pin.OUT)
+e = Pin(2, Pin.OUT)									# Enable save operation to registers
+rs = Pin(0, Pin.OUT)								# Set which register will get data (command/data)
+rw = Pin(1, Pin.OUT)								# Read/Write
+d4 = Pin(17, Pin.OUT)								# Data lines used for communication
+d5 = Pin(16, Pin.OUT)
+d6 = Pin(14, Pin.OUT)
+d7 = Pin(15, Pin.OUT)
 rw.value(0)
 
 # Function definition
