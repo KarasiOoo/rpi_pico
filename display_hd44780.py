@@ -76,26 +76,27 @@ def SetCommandReg(command_reg):
     return 0
 
 
+# Function which read busy flag and cursor address.
 def ReadAddressCounter():
-    d7.init(Pin.IN)								# Reconfigure pins to inputs, which is necessary to aquire information
-    d6.init(Pin.IN)								# about cursor address
+    d7.init(Pin.IN)									# Reconfigure pins to inputs, which is necessary to aquire information
+    d6.init(Pin.IN)									# about cursor address
     d5.init(Pin.IN)
     d4.init(Pin.IN)
     
-    rs.value(0)									# Set setup bits to reading address
+    rs.value(0)										# Set setup bits to reading address
     rw.value(1)
     e.value(1)
     
-    busy_flag = d7.value()						# Bit which indicate if display is busy
-    address_counter6 = d6.value()				# First part of cursor address
+    busy_flag = d7.value()							# Bit which indicate if display is busy
+    address_counter6 = d6.value()					# First part of cursor address
     address_counter5 = d5.value()
     address_counter4 = d4.value()
     
-    e.value(0)									# Break before second part
-    sleep_us(1)
+    e.value(0)										# Break before second part
+    sleep_us(1)	
     e.value(1)
     
-    address_counter3 = d7.value()				# Second part of address
+    address_counter3 = d7.value()					# Second part of address
     address_counter2 = d6.value()
     address_counter1 = d5.value()
     address_counter0 = d4.value()
@@ -136,6 +137,10 @@ def SetDataReg(data_reg):
     sleep_us(1)
     
     return 0
+
+
+
+####################################################
 
 # Configuration LCD to first place of display
 
