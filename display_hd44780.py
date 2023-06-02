@@ -151,3 +151,51 @@ SetCommandReg(clear) 								# Clear command
 
 # Further control is done by MicroPython shell
 
+while True:
+    print("What to do?")
+    print("1 - Write a string to display it on display.")
+    print("2 - Show cursor address.")
+    print("3 - Clear display.")
+    print("4 - Change address of cursor.\n ")
+    
+    choice = str(input("Choose from above menu: "))
+    
+    if choice == "1":
+        print("Write an array: ")
+        text = input()
+        for x in text:
+            if x == "|":
+                SetCommandReg(0b11000000)
+            else:
+                SetDataReg(chars[x])
+                cursor_address = int(ReadAddressCounter())
+                if cursor_address > 15 and cursor_address <= 63:
+                    #cursor_address = 0b11000000
+                    SetCommandReg(0b11000000)
+                elif cursor_address > 80 and cursor_address <= 127:
+                    #cursor_address = 0b10000000
+                    SetCommandReg(0b10000000)
+                sleep_us(100)
+        
+    elif choice == "2":
+        read_cursor_address = ReadAddressCounter()
+        print("Cursor is set to: bin = " + bin(read_cursor_address) + "\n\n")# + ", int = " + int(read_cursor_address))
+        sleep_ms(1000)
+        
+    elif choice == "3":
+        print("Clearing...")
+        sleep_ms(300)
+        clear_error = SetCommandReg(clear)
+        if clear_error == 0:
+            print("Clearing done!\n\n")
+        else:
+            print("Error occur while clearing display!\n\n")
+        
+    elif choice == "4":
+        new_address = int(input("Enter an address where you want to jump: "))
+        new_address += 128
+        new_address = new_address
+        #print(new_address)
+        SetCommandReg(new_address)
+        sleep_ms(500)
+        
