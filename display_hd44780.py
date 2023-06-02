@@ -106,7 +106,7 @@ def ReadAddressCounter():
     # Assemble aquired bits to one variable
     address_counter = (address_counter6 << 6) | (address_counter5 << 5) | (address_counter4 << 4) | (address_counter3 << 3) | (address_counter2 << 2) | (address_counter1 << 1) | address_counter0
     
-    return (bin(address_counter))
+    return address_counter
 
 
 # Function which writes 'data_reg' value into data register, which cause display coresponding char on display.
