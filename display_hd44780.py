@@ -1,7 +1,7 @@
 # This code provides basic function to set and use 16-sign, 2-line display with hd44780 controller
 # Display is configured at the moment of running code. Display is controlled using Micropython shell.
 from machine import Pin
-from time import sleep, sleep_us, sleep_ms
+from time import sleep_us, sleep_ms
 
 set_mode = 0b00111000
 turn_on_display = 0b00001110
