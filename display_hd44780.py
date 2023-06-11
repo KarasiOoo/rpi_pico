@@ -3,6 +3,18 @@
 from machine import Pin
 from time import sleep_us, sleep_ms
 
+led = Pin(25, Pin.OUT)
+led.value(1)
+
+e = Pin(2, Pin.OUT)														# Enable save operation to registers
+rs = Pin(0, Pin.OUT)													# Set which register will get data (command/data)
+rw = Pin(1, Pin.OUT)													# Read/Write
+d4 = Pin(17, Pin.OUT)													# Data lines used for communication
+d5 = Pin(16, Pin.OUT)
+d6 = Pin(14, Pin.OUT)
+d7 = Pin(15, Pin.OUT)
+rw.value(0)
+
 set_mode = 0b00111000													# bind control commands
 turn_on_display = 0b00001110
 home = 0b00000010
@@ -31,18 +43,6 @@ chars = {																# dictionary with chars and its binary form
     '>': 0b00111110, '[': 0b01011011, ']': 0b01011101, '_': 0b01011111
 }
 
-
-led = Pin(25, Pin.OUT)
-led.value(1)
-
-e = Pin(2, Pin.OUT)														# Enable save operation to registers
-rs = Pin(0, Pin.OUT)													# Set which register will get data (command/data)
-rw = Pin(1, Pin.OUT)													# Read/Write
-d4 = Pin(17, Pin.OUT)													# Data lines used for communication
-d5 = Pin(16, Pin.OUT)
-d6 = Pin(14, Pin.OUT)
-d7 = Pin(15, Pin.OUT)
-rw.value(0)
 
 # Function definition
 
@@ -140,7 +140,7 @@ def SetDataReg(data_reg):
 
 
 
-####################################################
+######################################################################
 
 # Configuration LCD to first place of display
 
